@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="5" result="Passed" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-11-16 22:57:02Z" end-time="2026-11-16 22:57:02Z" duration="0.2601828">
+  <test-suite type="TestSuite" id="1000" name="Pattern Survivor" fullname="Pattern Survivor" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-16 22:57:02Z" end-time="2026-11-16 22:57:02Z" duration="0.260183" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1007" name="PatternSurvivor.Tests.dll" fullname="D:/Proyectos Unity/Pattern Survivor/Library/ScriptAssemblies/PatternSurvivor.Tests.dll" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-16 22:57:02Z" end-time="2026-11-16 22:57:02Z" duration="0.250214" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="35224" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1008" name="PatternSurvivor" fullname="PatternSurvivor" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-16 22:57:02Z" end-time="2026-11-16 22:57:02Z" duration="0.249387" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1009" name="Tests" fullname="PatternSurvivor.Tests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-16 22:57:02Z" end-time="2026-11-16 22:57:02Z" duration="0.249039" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1001" name="PatternRulesTests" fullname="PatternSurvivor.Tests.PatternRulesTests" classname="PatternSurvivor.Tests.PatternRulesTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-16 22:57:02Z" end-time="2026-11-16 22:57:02Z" duration="0.242472" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1003" name="BuilderCreatesIndependentValidConfigurations" fullname="PatternSurvivor.Tests.PatternRulesTests.BuilderCreatesIndependentValidConfigurations" methodname="BuilderCreatesIndependentValidConfigurations" classname="PatternSurvivor.Tests.PatternRulesTests" runstate="Runnable" seed="813823514" result="Passed" start-time="2026-11-16 22:57:02Z" end-time="2026-11-16 22:57:02Z" duration="0.163963" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[0.38] Builder: arma configurada, daño 20, cadencia 3.0/s, proyectiles 1
+[0.38] Builder: arma configurada, daño 40, cadencia 3.0/s, proyectiles 1
+]]></output>
+            </test-case>
+            <test-case id="1005" name="CompositeExecutesEachChildOnce" fullname="PatternSurvivor.Tests.PatternRulesTests.CompositeExecutesEachChildOnce" methodname="CompositeExecutesEachChildOnce" classname="PatternSurvivor.Tests.PatternRulesTests" runstate="Runnable" seed="145800857" result="Passed" start-time="2026-11-16 22:57:02Z" end-time="2026-11-16 22:57:02Z" duration="0.003188" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[0.38] Composite: CompositeSkill ejecutó 2 habilidades hijas
+]]></output>
+            </test-case>
+            <test-case id="1006" name="DecoratorInvokesInnerAndAddsEffect" fullname="PatternSurvivor.Tests.PatternRulesTests.DecoratorInvokesInnerAndAddsEffect" methodname="DecoratorInvokesInnerAndAddsEffect" classname="PatternSurvivor.Tests.PatternRulesTests" runstate="Runnable" seed="1299740418" result="Passed" start-time="2026-11-16 22:57:02Z" end-time="2026-11-16 22:57:02Z" duration="0.007786" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[0.38] Builder: arma configurada, daño 10, cadencia 3.0/s, proyectiles 1
+[0.38] Builder: arma configurada, daño 10, cadencia 3.0/s, proyectiles 1
+[0.38] Decorator: FireWeaponDecorator añadió quemadura y daño adicional
+]]></output>
+            </test-case>
+            <test-case id="1004" name="FlyweightReturnsSameReferencePerType" fullname="PatternSurvivor.Tests.PatternRulesTests.FlyweightReturnsSameReferencePerType" methodname="FlyweightReturnsSameReferencePerType" classname="PatternSurvivor.Tests.PatternRulesTests" runstate="Runnable" seed="1099526146" result="Passed" start-time="2026-11-16 22:57:02Z" end-time="2026-11-16 22:57:02Z" duration="0.001821" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1002" name="PrototypeCloneIsIndependent" fullname="PatternSurvivor.Tests.PatternRulesTests.PrototypeCloneIsIndependent" methodname="PrototypeCloneIsIndependent" classname="PatternSurvivor.Tests.PatternRulesTests" runstate="Runnable" seed="140263581" result="Passed" start-time="2026-11-16 22:57:02Z" end-time="2026-11-16 22:57:02Z" duration="0.003362" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[Saving results to: C:/Users/Juan/AppData/LocalLow/DefaultCompany/Pattern Survivor\TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
