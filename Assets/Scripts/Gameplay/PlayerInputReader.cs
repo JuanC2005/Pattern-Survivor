@@ -65,6 +65,7 @@ namespace PatternSurvivor.Gameplay
             }
 
             Vector2 aim = GetAimDirection();
+            player.Weapon.SetAimDirection(aim);
             bool shooting = Mouse.current != null && Mouse.current.leftButton.isPressed;
             shooting |= Keyboard.current.spaceKey.isPressed;
             if (shooting)

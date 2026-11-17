@@ -37,6 +37,7 @@ namespace PatternSurvivor.Gameplay
             arena.transform.localScale = new Vector3(16f, 9f, 1f);
             SpriteRenderer arenaRenderer = arena.AddComponent<SpriteRenderer>();
             arenaRenderer.sprite = RuntimeSpriteLibrary.GetSquare("Arena", new Color(0.035f, 0.055f, 0.11f));
+            RuntimeSpriteLibrary.ApplySpriteMaterial(arenaRenderer);
             arenaRenderer.sortingOrder = -20;
 
             playerObject = new GameObject("Player");
@@ -44,6 +45,7 @@ namespace PatternSurvivor.Gameplay
             playerObject.transform.position = Vector3.zero;
             SpriteRenderer playerRenderer = playerObject.AddComponent<SpriteRenderer>();
             playerRenderer.sprite = RuntimeSpriteLibrary.GetCircle("Player", new Color(0.2f, 0.9f, 0.8f), 38);
+            RuntimeSpriteLibrary.ApplySpriteMaterial(playerRenderer);
             playerRenderer.sortingOrder = 8;
             CircleCollider2D playerCollider = playerObject.AddComponent<CircleCollider2D>();
             playerCollider.isTrigger = true;

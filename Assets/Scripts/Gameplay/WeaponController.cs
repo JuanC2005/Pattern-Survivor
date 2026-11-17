@@ -14,6 +14,8 @@ namespace PatternSurvivor.Gameplay
         private bool fireEnabled;
         private bool iceEnabled;
         private float nextAllowedShot;
+        private Transform weaponVisual;
+        private SpriteRenderer weaponVisualRenderer;
 
         public WeaponConfig CurrentConfig => currentConfig;
         public string ActiveEffectsDescription
@@ -35,6 +37,7 @@ namespace PatternSurvivor.Gameplay
         public void Configure(PlayerController controller)
         {
             player = controller;
+            CreateWeaponVisual();
             currentConfig = WeaponDirector.BuildBasic();
             RebuildWeapon();
             nextAllowedShot = 0f;
@@ -103,6 +106,17 @@ namespace PatternSurvivor.Gameplay
             PatternEventLogger.Record("Decorator", $"mejora aplicada: {option.Title}; efectos {ActiveEffectsDescription}");
         }
 
+        public void SetAimDirection(Vector2 direction)
+        {
+            if (weaponVisual == null || direction.sqrMagnitude <= 0.001f)
+            {
+                return;
+            }
+
+            direction.Normalize();
+            weaponVisual.localRotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
+        }
+
         public void DemonstrateBuilderProfiles()
         {
             WeaponDirector.BuildBasic();
@@ -123,6 +137,43 @@ namespace PatternSurvivor.Gameplay
             {
                 weapon = new IceWeaponDecorator(weapon);
             }
+
+            UpdateWeaponVisual();
+        }
+
+        private void CreateWeaponVisual()
+        {
+            if (weaponVisual != null)
+            {
+                return;
+            }
+
+            GameObject weaponObject = new GameObject("WeaponVisual");
+            weaponObject.transform.SetParent(transform, false);
+            weaponObject.transform.localPosition = new Vector3(0.42f, 0f, -0.05f);
+            weaponObject.transform.localScale = new Vector3(0.78f, 0.18f, 1f);
+            weaponVisual = weaponObject.transform;
+            weaponVisualRenderer = weaponObject.AddComponent<SpriteRenderer>();
+            weaponVisualRenderer.sprite = RuntimeSpriteLibrary.GetSquare("Weapon", Color.white, 16);
+            RuntimeSpriteLibrary.ApplySpriteMaterial(weaponVisualRenderer);
+            weaponVisualRenderer.sortingOrder = 9;
+            SetAimDirection(Vector2.right);
+        }
+
+        private void UpdateWeaponVisual()
+        {
+            if (weaponVisualRenderer == null)
+            {
+                return;
+            }
+
+            weaponVisualRenderer.color = fireEnabled && iceEnabled
+                ? new Color(0.8f, 0.35f, 1f)
+                : fireEnabled
+                    ? new Color(1f, 0.3f, 0.08f)
+                    : iceEnabled
+                        ? new Color(0.25f, 0.85f, 1f)
+                        : new Color(1f, 0.82f, 0.25f);
         }
 
         private void SpawnProjectile(Vector2 origin, Vector2 direction, int damage, float speed, float lifetime, ProjectileEffects effects)
@@ -131,6 +182,7 @@ namespace PatternSurvivor.Gameplay
             projectileObject.transform.position = origin + direction * 0.45f;
             SpriteRenderer renderer = projectileObject.AddComponent<SpriteRenderer>();
             renderer.sprite = RuntimeSpriteLibrary.GetSquare("Projectile", effects == ProjectileEffects.None ? Color.white : new Color(1f, 0.85f, 0.25f));
+            RuntimeSpriteLibrary.ApplySpriteMaterial(renderer);
             renderer.sortingOrder = 10;
             Projectile projectile = projectileObject.AddComponent<Projectile>();
             projectile.Configure(direction, damage, speed, lifetime, effects);

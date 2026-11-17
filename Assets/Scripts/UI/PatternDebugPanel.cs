@@ -45,6 +45,7 @@ namespace PatternSurvivor.UI
         private Text detailText;
         private Text evidenceText;
         private Button testButton;
+        private Button closeButton;
 
         private void OnEnable() => PatternEventLogger.EventRecorded += HandleEventRecorded;
         private void OnDisable() => PatternEventLogger.EventRecorded -= HandleEventRecorded;
@@ -63,8 +64,8 @@ namespace PatternSurvivor.UI
             evidenceText = CreateText(panel.transform, string.Empty, 17, new Color(0.75f, 0.9f, 1f), new Vector2(0.5f, 0.25f), new Vector2(980f, 120f), TextAnchor.MiddleCenter);
             testButton = CreateButton(panel.transform, "PROBAR", new Vector2(0.40f, 0.10f), new Color(0.2f, 0.55f, 0.8f), new Vector2(230f, 52f));
             testButton.onClick.AddListener(RunSafeDemo);
-            Button close = CreateButton(panel.transform, "CERRAR", new Vector2(0.60f, 0.10f), new Color(0.5f, 0.2f, 0.35f), new Vector2(230f, 52f));
-            close.onClick.AddListener(facade.ClosePatterns);
+            closeButton = CreateButton(panel.transform, "CERRAR", new Vector2(0.60f, 0.10f), new Color(0.5f, 0.2f, 0.35f), new Vector2(230f, 52f));
+            closeButton.onClick.AddListener(facade.ClosePatterns);
             panel.SetActive(false);
             return panel;
         }
@@ -79,6 +80,24 @@ namespace PatternSurvivor.UI
 
         public void Show() => panel.SetActive(true);
         public void Hide() => panel.SetActive(false);
+
+        public void ApplyResponsiveLayout(bool compact)
+        {
+            if (selector == null)
+            {
+                return;
+            }
+
+            selector.GetComponent<RectTransform>().sizeDelta = new Vector2(compact ? 380f : 500f, 44f);
+            detailText.GetComponent<RectTransform>().sizeDelta = new Vector2(compact ? 700f : 980f, compact ? 285f : 260f);
+            evidenceText.GetComponent<RectTransform>().sizeDelta = new Vector2(compact ? 700f : 980f, 120f);
+            testButton.GetComponent<RectTransform>().anchorMin = new Vector2(compact ? 0.34f : 0.40f, 0.08f);
+            testButton.GetComponent<RectTransform>().anchorMax = testButton.GetComponent<RectTransform>().anchorMin;
+            testButton.GetComponent<RectTransform>().sizeDelta = new Vector2(compact ? 180f : 230f, 52f);
+            closeButton.GetComponent<RectTransform>().anchorMin = new Vector2(compact ? 0.66f : 0.60f, 0.08f);
+            closeButton.GetComponent<RectTransform>().anchorMax = closeButton.GetComponent<RectTransform>().anchorMin;
+            closeButton.GetComponent<RectTransform>().sizeDelta = new Vector2(compact ? 180f : 230f, 52f);
+        }
 
         public void Refresh()
         {

@@ -83,6 +83,7 @@ namespace PatternSurvivor.Gameplay
             activePulse.transform.position = player.transform.position;
             SpriteRenderer renderer = activePulse.AddComponent<SpriteRenderer>();
             renderer.sprite = RuntimeSpriteLibrary.GetCircle("SkillPulse", new Color(0.2f, 1f, 0.85f), 64);
+            RuntimeSpriteLibrary.ApplySpriteMaterial(renderer);
             renderer.sortingOrder = 6;
             pulseRoutine = StartCoroutine(AnimatePulse(renderer));
         }

@@ -32,6 +32,8 @@ namespace PatternSurvivor.UI
         private Slider healthSlider;
         private Button[] upgradeButtons;
         private bool built;
+        private int lastScreenWidth;
+        private int lastScreenHeight;
 
         private readonly Color backgroundColor = new Color(0.025f, 0.04f, 0.09f, 0.97f);
         private readonly Color panelColor = new Color(0.06f, 0.09f, 0.17f, 0.96f);
@@ -76,6 +78,7 @@ namespace PatternSurvivor.UI
             patternsPanel = patternPanel.Build(canvas.transform, accentColor, panelColor, backgroundColor);
             built = true;
             RefreshInitialValues();
+            ApplyResponsiveLayout();
         }
 
         public void ShowMenu()
@@ -390,10 +393,71 @@ namespace PatternSurvivor.UI
         private void Update()
         {
             if (!built || runtime.Player == null) return;
+            if (Screen.width != lastScreenWidth || Screen.height != lastScreenHeight)
+            {
+                ApplyResponsiveLayout();
+            }
+
             WeaponController weapon = runtime.Player.Weapon;
             weaponText.text = $"ARMA  {weapon.CurrentConfig.Damage} DMG  ·  {weapon.CurrentConfig.FireRate:0.0}/s  ·  {weapon.ActiveEffectsDescription}";
             float cooldown = runtime.Player.Skill.RemainingCooldown;
             skillText.text = cooldown <= 0f ? "Q  HABILIDAD LISTA" : $"Q  COOLDOWN {cooldown:0.0}s";
+        }
+
+        private void ApplyResponsiveLayout()
+        {
+            lastScreenWidth = Screen.width;
+            lastScreenHeight = Screen.height;
+            if (canvas == null || lastScreenHeight <= 0)
+            {
+                return;
+            }
+
+            bool compact = lastScreenWidth < 1100 || lastScreenWidth / (float)lastScreenHeight < 1.55f;
+            CanvasScaler scaler = canvas.GetComponent<CanvasScaler>();
+            scaler.matchWidthOrHeight = compact ? 0f : 0.5f;
+
+            SetSize(healthText, compact ? 220f : 260f, 34f);
+            SetSize(healthSlider, compact ? 220f : 260f, 18f);
+            SetSize(waveText, compact ? 300f : 360f, 34f);
+            SetSize(scoreText, compact ? 300f : 360f, 34f);
+            SetSize(levelText, compact ? 300f : 360f, 28f);
+            SetSize(weaponText, compact ? 300f : 380f, 30f);
+            SetSize(skillText, compact ? 300f : 400f, 30f);
+
+            for (int i = 0; i < upgradeButtons.Length; i++)
+            {
+                RectTransform rect = upgradeButtons[i].GetComponent<RectTransform>();
+                if (compact)
+                {
+                    rect.anchorMin = new Vector2(0.5f, 0.53f - i * 0.16f);
+                    rect.anchorMax = rect.anchorMin;
+                    rect.sizeDelta = new Vector2(500f, 82f);
+                }
+                else
+                {
+                    rect.anchorMin = new Vector2(0.28f + i * 0.22f, 0.45f);
+                    rect.anchorMax = rect.anchorMin;
+                    rect.sizeDelta = new Vector2(260f, 112f);
+                }
+
+                Text buttonText = upgradeButtons[i].GetComponentInChildren<Text>();
+                SetSize(buttonText, rect.sizeDelta.x - 18f, rect.sizeDelta.y - 10f);
+            }
+
+            patternPanel.ApplyResponsiveLayout(compact);
+            Canvas.ForceUpdateCanvases();
+        }
+
+        private static void SetSize(Component component, float width, float height)
+        {
+            if (component == null)
+            {
+                return;
+            }
+
+            RectTransform rect = component.GetComponent<RectTransform>();
+            rect.sizeDelta = new Vector2(width, height);
         }
 
         private static string FormatTime(float seconds)

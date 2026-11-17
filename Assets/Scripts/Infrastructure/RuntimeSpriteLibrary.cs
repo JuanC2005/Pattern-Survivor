@@ -6,14 +6,63 @@ namespace PatternSurvivor.Infrastructure
     public static class RuntimeSpriteLibrary
     {
         private static readonly Dictionary<string, Sprite> Sprites = new Dictionary<string, Sprite>();
+        private static Material spriteMaterial;
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetRuntimeCache()
+        {
+            // Enter Play Mode can preserve static fields when domain reload is disabled.
+            Sprites.Clear();
+            spriteMaterial = null;
+        }
+
+        public static Material GetSpriteMaterial()
+        {
+            if (spriteMaterial != null)
+            {
+                return spriteMaterial;
+            }
+
+            Shader shader = Shader.Find("Universal Render Pipeline/2D/Sprite-Unlit-Default");
+            if (shader == null)
+            {
+                shader = Shader.Find("Sprites/Default");
+            }
+
+            if (shader != null)
+            {
+                spriteMaterial = new Material(shader)
+                {
+                    name = "PatternSurvivor_RuntimeSpriteMaterial"
+                };
+            }
+
+            return spriteMaterial;
+        }
+
+        public static void ApplySpriteMaterial(SpriteRenderer renderer)
+        {
+            if (renderer == null)
+            {
+                return;
+            }
+
+            Material material = GetSpriteMaterial();
+            if (material != null)
+            {
+                renderer.sharedMaterial = material;
+            }
+        }
 
         public static Sprite GetCircle(string key, Color color, int size = 32)
         {
             string cacheKey = $"circle:{key}:{ColorUtility.ToHtmlStringRGBA(color)}";
-            if (Sprites.TryGetValue(cacheKey, out Sprite cached))
+            if (Sprites.TryGetValue(cacheKey, out Sprite cached) && cached != null)
             {
                 return cached;
             }
+
+            Sprites.Remove(cacheKey);
 
             Texture2D texture = new Texture2D(size, size, TextureFormat.RGBA32, false)
             {
@@ -44,10 +93,12 @@ namespace PatternSurvivor.Infrastructure
         public static Sprite GetSquare(string key, Color color, int size = 16)
         {
             string cacheKey = $"square:{key}:{ColorUtility.ToHtmlStringRGBA(color)}";
-            if (Sprites.TryGetValue(cacheKey, out Sprite cached))
+            if (Sprites.TryGetValue(cacheKey, out Sprite cached) && cached != null)
             {
                 return cached;
             }
+
+            Sprites.Remove(cacheKey);
 
             Texture2D texture = new Texture2D(size, size, TextureFormat.RGBA32, false)
             {

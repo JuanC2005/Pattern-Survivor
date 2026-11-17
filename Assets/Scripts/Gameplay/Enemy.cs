@@ -49,6 +49,7 @@ namespace PatternSurvivor.Gameplay
             CurrentHealth = prototype.CurrentHealth;
             spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
             spriteRenderer.sprite = RuntimeSpriteLibrary.GetCircle(data.TypeName, data.Color, data.TypeName == "Tank" ? 42 : 32);
+            RuntimeSpriteLibrary.ApplySpriteMaterial(spriteRenderer);
             spriteRenderer.sortingOrder = 5;
             CircleCollider2D collider = gameObject.AddComponent<CircleCollider2D>();
             collider.isTrigger = true;
